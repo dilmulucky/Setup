@@ -1,0 +1,138 @@
+﻿<Window x:Class="Uninstall.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Uninstall"
+        xmlns:cov="clr-namespace:Uninstall.Converters"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="442" Width="592">
+    <Window.Resources>
+        <SolidColorBrush x:Key="Lumina.Blue" Color="#3275FA"/>
+
+        <cov:ReVisibilityConverter x:Key="reVisibilityConverter" />
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="#0E4686" SnapsToDevicePixels="true" CornerRadius="8">
+                            <ContentPresenter x:Name="contentPresenter" TextBlock.Foreground="#FFFFFF" TextBlock.FontSize="18" Margin="20,-1,20,0" Focusable="False" HorizontalAlignment="Center" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#195CA9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#195CA9"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="#DCDFE6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ProgressBarStyle" TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="{StaticResource Lumina.Blue}"/>
+            <Setter Property="Background" Value="#EBEDF2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="Background" SnapsToDevicePixels="true">
+                            <Rectangle Fill="{TemplateBinding Background}"/>
+
+                            <Rectangle x:Name="PART_Track" Margin="0"/>
+                            <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left" Margin="0">
+                                <Grid x:Name="Foreground">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MaxWidth="15"/>
+                                        <ColumnDefinition Width="0.1*"/>
+                                        <ColumnDefinition MaxWidth="15"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Rectangle x:Name="Indicator" Grid.ColumnSpan="3" Fill="{TemplateBinding Foreground}" Grid.RowSpan="2"/>
+                                    <Rectangle x:Name="Animation" Grid.ColumnSpan="3" Fill="{TemplateBinding Foreground}" Grid.RowSpan="2"/>
+                                </Grid>
+                            </Decorator>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="158"/>
+        </Grid.RowDefinitions>
+        <!-- head -->
+        <Image Source="Assets/bg.png" Height="300" Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+        <!--<TextBlock Text="{DynamicResource Tit_Top}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,2,0,0" FontSize="14" FontWeight="Bold" Foreground="#ffffff" />-->
+
+        <Grid x:Name="TitlePanel" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Image Source="Assets/logo.png" Height="49" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <TextBlock x:Name="SloganTb" Visibility="{Binding ElementName=ShowImg,Path=Visibility,Converter={StaticResource reVisibilityConverter}}" Text="Make online education easily accessible" Foreground="#FFFFFF" FontSize="14" Height="120" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Image x:Name="ShowImg" Visibility="{Binding ElementName=ProPanel,Path=Visibility}" Source="Assets/show.png" Stretch="None" Margin="20,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+        </Grid>
+        <Rectangle MouseLeftButtonDown="Window_MouseLeftButtonDown" Fill="Transparent" />
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Margin="0,8,8,0">
+            <Grid x:Name="BtnClose" MouseLeftButtonDown="BtnClose_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="25">
+                <Image Stretch="None" Source="Assets/close.png" />
+            </Grid>
+        </StackPanel>
+
+        <Grid x:Name="UninstallPanel" Grid.Row="1" Background="White" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="UninstallBtn" Content="Uninstall" VerticalAlignment="Bottom" Style="{StaticResource ButtonStyle}" Width="200" Height="48" Click="UninstallBtn_Click" />
+
+            <StackPanel MouseLeftButtonDown="BtnClose_MouseLeftButtonDown" Margin="0,15,0,0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand" Orientation="Horizontal">
+                <TextBlock Foreground="#909399" FontSize="14" Text="Cancel "/>
+                <Path Fill="#909399" Stretch="Uniform" Width="10" Height="10" Data="M642.174253 504.59418C650.164439 511.835287 650.070886 522.174253 641.84009 529.376198L332.618569 799.94503C323.751654 807.703582 322.853148 821.181184 330.611697 830.048098 338.370249 838.915012 351.847851 839.813519 360.714765 832.05497L669.936288 561.486138C697.36486 537.486138 697.727953 497.358861 670.825747 472.978737L360.992414 192.192278C352.26205 184.280386 338.770837 184.943889 330.858944 193.674252 322.947053 202.404616 323.610556 215.895829 332.340919 223.807723L642.174253 504.59418Z"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="ProPanel" Grid.Row="1" Background="White" Visibility="Collapsed" Margin="30,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="MsgTb" FontSize="14" Foreground="#303133" VerticalAlignment="Bottom" TextWrapping="Wrap" Margin="0,0,0,15"/>
+            <ProgressBar x:Name="Pro" Height="10" Foreground="{StaticResource Lumina.Blue}" VerticalAlignment="Top" BorderThickness="0" Background="#EBEDF2" Style="{StaticResource ProgressBarStyle}" Grid.Row="1"/>
+        </Grid>
+
+        <Grid x:Name="FinishPanel" Background="White" Grid.Row="1" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Path Fill="#46D12A" Stretch="Uniform" Width="28" Height="28" Data="M164.86 368.22c-58.16 140.41-26.01 302.02 81.45 409.48s269.08 139.61 409.48 81.45C796.2 800.99 887.74 663.97 887.74 512 887.51 304.58 719.42 136.5 512 136.26c-151.97 0-288.98 91.55-347.14 231.96zM512 960C264.58 960 64 759.42 64 512S264.58 64 512 64s448 200.58 448 448c-0.29 247.3-200.7 447.71-448 448z m-78.49-322.88L326.79 546.7c-14.34-13.12-15.75-35.23-3.19-50.05 12.57-14.83 34.61-17.07 49.9-5.07l106.71 90.41c3.3 2.78 8.22 2.41 11.06-0.83l184.14-211.04c13.32-14.18 35.47-15.29 50.13-2.5 14.66 12.79 16.57 34.88 4.33 50L545.74 628.64a80.076 80.076 0 0 1-60.51 27.34 79.788 79.788 0 0 1-51.72-18.86z"/>
+                <TextBlock x:Name="FinishTb" FontSize="24" Foreground="#303133" VerticalAlignment="Center" TextWrapping="Wrap" Margin="12,0,0,0"/>
+            </StackPanel>
+            <Button x:Name="OpenBtn" Content="Completed" Height="48" MinWidth="200" HorizontalAlignment="Center" VerticalAlignment="Top" Click="FinishButton_Click" Grid.Row="2" Style="{StaticResource ButtonStyle}"/>
+        </Grid>
+    </Grid>
+</Window>

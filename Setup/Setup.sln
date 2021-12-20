@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{536DFD1E-802C-4EC4-A39D-16DDFABA6ACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uninstall", "Uninstall\Uninstall.csproj", "{37D269A1-9EBC-4562-9747-7F0EAF03F409}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{536DFD1E-802C-4EC4-A39D-16DDFABA6ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536DFD1E-802C-4EC4-A39D-16DDFABA6ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536DFD1E-802C-4EC4-A39D-16DDFABA6ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536DFD1E-802C-4EC4-A39D-16DDFABA6ACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D269A1-9EBC-4562-9747-7F0EAF03F409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D269A1-9EBC-4562-9747-7F0EAF03F409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D269A1-9EBC-4562-9747-7F0EAF03F409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D269A1-9EBC-4562-9747-7F0EAF03F409}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B1A1EF34-59E0-41DF-9110-1FBA46ACD8A3}
+	EndGlobalSection
+EndGlobal

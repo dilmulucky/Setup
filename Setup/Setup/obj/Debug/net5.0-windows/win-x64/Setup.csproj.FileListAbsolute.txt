@@ -1,0 +1,1 @@
+C:\Users\mcc\Documents\GitHub\Setup\Setup\Setup\obj\Debug\net5.0-windows\win-x64\Setup.csproj.AssemblyReference.cache
