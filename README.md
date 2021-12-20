@@ -12,10 +12,15 @@
 Setp:
 
 1,修改Setup里SetupInfo.cs中对应的信息,原则上都需要修改为自己项目的
+
 2,修改Uninstall里MainWindow.xaml.cs中对应的信息,同SetupInfo中的部分
+
 3,编译并把生成的安装卸载程序复制到python项目下的res目录下
+
 4,修改python项目下的SetupShell.py文件,修改对应需要检测的环境等
+
 5,修改SetupShell.spec,该文件为pyinstaller生成包的配置,具体用法自行搜索
+
 6,最终生成命令为(python版本为3.8.8,需要安装pyinstaller):
 pyinstaller -F --uac-admin -r Main.exe.mainfest,1 SetupShell.spec
 
