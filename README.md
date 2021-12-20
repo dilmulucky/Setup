@@ -16,7 +16,7 @@
 
 
 
-Setp:
+Setps:
 
 1,修改Setup里SetupInfo.cs中对应的信息,原则上都需要修改为自己项目的
 
