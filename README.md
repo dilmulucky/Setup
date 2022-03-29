@@ -1,5 +1,5 @@
-# Setup
-使用WPF实现自定义win客户端安装(更新)卸载程序
+# Setup/Installer
+使用WPF实现自定义Windows客户端安装(更新)卸载程序
 
 
 ## 目录
