@@ -7,7 +7,7 @@
 ***LuminaSetup***为python实现的最终安装包  
 
 ## 描述
-具体实现逻辑博客园里有写:https://www.cnblogs.com/mcc7/p/5019341.html
+具体实现逻辑[博客园](https://www.cnblogs.com/mcc7/p/5019341.html)里有写
 
 ## 流程
 
