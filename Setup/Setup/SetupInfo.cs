@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Setup
 {
+    /// <summary>
+    /// 安装及配置信息,需要修改所有Lumina及Beacon字样
+    /// </summary>
     public class SetupInfo
     {
         /// <summary>
@@ -16,7 +21,13 @@ namespace Setup
         /// <summary>
         /// 配置文件请求地址
         /// </summary>
-        public const string VerUrl = "https://www.luminaedu.com/api/v1/appVersion/configInfo?client=Windows";
+        public const string VerUrl = "/api/v1/appVersion/configInfo?client=Windows&isNew=true";
+
+        /// <summary>
+        /// 此程序用于更新/卸载时所在的目录,建议存放在local下,ProgramFiles目录存在权限问题且放在相同目录卸载时文件占用
+        /// 客户端程序需要知道此路径,需要更新时调用此路径下Setup.exe,下载更新包进行更新
+        /// </summary>
+        public static readonly string UpdatePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Lumina\Update\");
 
         /// <summary>
         /// 注册名
@@ -68,5 +79,59 @@ namespace Setup
         public const string UnProtocolKey = "beacon";
 
         #endregion
+    }
+
+    [Serializable]
+    [XmlRoot("UserConfig")]
+    public class UserConfig
+    {
+        private static readonly string FileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Lumina\Data\userconfig.xml");
+
+        private static readonly object lockobj = new object();
+
+        private static UserConfig instance;
+
+        /// <summary>
+        /// 用户配置的实例
+        /// </summary>
+        /// <returns></returns>
+        public static UserConfig Instance()
+        {
+            lock (lockobj)
+            {
+                if (instance == null)
+                {
+
+                    instance = LoadXML(FileFullName);
+                }
+
+                return instance;
+            }
+        }
+
+        // 为方便测试,所以服务器地址修改为动态从配置文件中获取
+        private string serverUrl = "https://www.luminaedu.com";
+
+        /// <summary>
+        /// 服务器访问地址(默认线上环境)
+        /// </summary>
+        public string ServerUrl
+        {
+            get { return serverUrl; }
+            set
+            {
+                serverUrl = value;
+            }
+        }
+
+        public static UserConfig LoadXML(string fileFullName)
+        {
+            using (FileStream fs = new FileStream(fileFullName, FileMode.Open, FileAccess.Read))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(UserConfig));
+                var listpers = xs.Deserialize(fs) as UserConfig;
+                return listpers;
+            }
+        }
     }
 }

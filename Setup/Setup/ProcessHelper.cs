@@ -28,6 +28,23 @@ namespace Setup
         }
 
         /// <summary>
+        /// 启动exe,使用cmd中介,可摆脱权限及管理员问题
+        /// </summary>
+        /// <param name="filefullname"></param>
+        public static void CmdRunExe(string filefullname)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.UseShellExecute = false;   //是否使用操作系统shell启动 
+            process.StartInfo.CreateNoWindow = true;   //是否在新窗口中启动该进程的值 (不显示程序窗口)
+            process.StartInfo.RedirectStandardInput = true;
+            process.Start(); //等待程序执行完退出进程
+            process.StandardInput.WriteLine(filefullname + "&exit");
+            process.WaitForExit();
+            process.Close();
+        }
+
+        /// <summary>
         /// 关闭指定进行并等待
         /// </summary>
         /// <param name="proName"></param>

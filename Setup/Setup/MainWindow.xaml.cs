@@ -26,14 +26,14 @@ namespace Setup
     {
         /// <summary>
         /// 选择的安装目录
-        /// 安装后安装包目录(用于更新)
-        /// 客户端程序需要知道此路径,需要更新时调用此路径下setup,下载更新包进行更新
+        /// 安装后安装包目录
         /// </summary>
         private string TargetPath;
 
         /// <summary>
         /// 安装的实际目录
-        /// 需要位于TargetPath目录下,方便卸载
+        /// 位于TargetPath目录下
+        /// 如不需要在TargetPath目录下存放其他文件,也可直接安装在TargetPath目录
         /// </summary>
         private string InstallPath;
 
@@ -51,7 +51,7 @@ namespace Setup
 
             TargetPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), SetupInfo.Publisher, SetupInfo.KeyName);
             SetupPathTb.Text = TargetPath;
-            InstallPath = System.IO.Path.Combine(TargetPath, "Release");
+            InstallPath = System.IO.Path.Combine(TargetPath, "App");
 
             // 如果发现该程序已经安装,则直接执行更新操作
             var inspath = RegisterHelper.GetInstallPath();
@@ -61,8 +61,8 @@ namespace Setup
 
                 TargetPath = RegisterHelper.GetSourcePath();
                 InstallPath = inspath;
-                // 隐藏安装界面,直接更新
 
+                // 隐藏安装界面,直接更新
                 SetupPanel.Visibility = Visibility.Collapsed;
                 SelectPanel.Visibility = Visibility.Collapsed;
 
@@ -83,7 +83,7 @@ namespace Setup
                 ProcessHelper.KillProcessAwait(SetupInfo.AppExe);
 
                 SetMsg("Fetching package info");
-                var config = HttpHelper.GetConfig(SetupInfo.VerUrl);
+                var config = HttpHelper.GetConfig(UserConfig.Instance().ServerUrl + SetupInfo.VerUrl);
                 if (config == null || string.IsNullOrEmpty(config.Version) || string.IsNullOrEmpty(config.Url))
                 {
                     SetMsg("Failed to fetch package info");
@@ -128,7 +128,7 @@ namespace Setup
                     RegisterHelper.SetUnProtocol(SetupInfo.AppExe, System.IO.Path.Combine(InstallPath, SetupInfo.AppExe));
                 }
 
-                RegisterHelper.RegisterInstallInfo(InstallPath, SetupInfo.AppExe, TargetPath, SetupInfo.UninstallExe, config.Version);
+                RegisterHelper.RegisterInstallInfo(InstallPath, SetupInfo.AppExe, TargetPath, System.IO.Path.Combine(SetupInfo.UpdatePath, SetupInfo.UninstallExe), config.Version);
                 if (!IsUpdate)
                 {
                     CopyExeFile();
@@ -197,14 +197,14 @@ namespace Setup
         {
             try
             {
-                if (!Directory.Exists(TargetPath))
-                    Directory.CreateDirectory(TargetPath);
+                if (!Directory.Exists(SetupInfo.UpdatePath))
+                    Directory.CreateDirectory(SetupInfo.UpdatePath);
 
                 var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
                 foreach (var file in files)
                 {
                     var fileName = file.Split('\\').LastOrDefault();
-                    System.IO.File.Copy(file, System.IO.Path.Combine(TargetPath, fileName), true);
+                    System.IO.File.Copy(file, System.IO.Path.Combine(SetupInfo.UpdatePath, fileName), true);
                 }
             }
             catch (Exception ex)
@@ -261,7 +261,7 @@ namespace Setup
 
         private void FinishButton_Click(object sender, RoutedEventArgs e)
         {
-            ProcessHelper.StartProcess(System.IO.Path.Combine(InstallPath, SetupInfo.AppExe));
+            ProcessHelper.CmdRunExe(System.IO.Path.Combine(InstallPath, SetupInfo.AppExe));
             this.Close();
         }
 
@@ -311,7 +311,7 @@ namespace Setup
             {
                 SetupPathTb.Text = folderBrowserDialog.SelectedFolder;
                 TargetPath = folderBrowserDialog.SelectedFolder;
-                InstallPath = System.IO.Path.Combine(TargetPath, "Release");
+                InstallPath = System.IO.Path.Combine(TargetPath, "App");
             }
         }
 

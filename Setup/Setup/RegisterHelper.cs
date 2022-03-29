@@ -48,7 +48,7 @@ namespace Setup
         /// 注册应用信息
         /// </summary>
         /// <param name="setupPath">安装路径</param>
-        public static void RegisterInstallInfo(string installPath, string fileName, string targetPath, string unName, string ver)
+        public static void RegisterInstallInfo(string installPath, string fileName, string targetPath, string unfileName, string ver)
         {
             try
             {
@@ -77,8 +77,8 @@ namespace Setup
                 // 帮助电话
                 // software.SetValue("HelpTelephone", "123456789");
 
-                // 卸载路径
-                software.SetValue("UninstallString", Path.Combine(targetPath, unName));
+                // 卸载完整路径
+                software.SetValue("UninstallString", unfileName);
 
                 //software.Close();
                 key.Close();

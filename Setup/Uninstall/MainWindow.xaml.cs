@@ -66,7 +66,8 @@ namespace Uninstall
                 RegistryKey? key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + KeyName);
                 if (key == null) return null;
 
-                return key.GetValue("InstallLocation").ToString();
+                // 从target目录进行删除
+                return key.GetValue("InstallSource").ToString();
             }
             catch (Exception)
             {

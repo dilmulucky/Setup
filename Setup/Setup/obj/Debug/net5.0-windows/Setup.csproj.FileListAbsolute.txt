@@ -27,3 +27,4 @@ C:\Users\mcc\Documents\GitHub\Setup\Setup\Setup\obj\Debug\net5.0-windows\Setup.g
 C:\Users\mcc\Documents\GitHub\Setup\Setup\Setup\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\mcc\Documents\GitHub\Setup\Setup\Setup\bin\Debug\net5.0-windows\FolderBrowserEx.dll
 C:\Users\mcc\Documents\GitHub\Setup\Setup\Setup\obj\Debug\net5.0-windows\Setup_Content.g.cs
+C:\Users\mcc\Documents\GitHub\Setup\Setup\Setup\obj\Debug\net5.0-windows\Setup.csproj.AssemblyReference.cache
